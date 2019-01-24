@@ -8,27 +8,12 @@ import gql from "graphql-tag";
 import { ApolloProvider } from 'react-apollo';
 
 const client = new ApolloClient({
-  uri: 'http://52.194.211.12:3000/graphql',
+  uri: 'http://52.192.5.229:3000/graphql',
   request: operation => {
     operation.setContext({
     });
   }
 });
-
-const query = gql`
-  {
-    users {
-      edges {
-        node {
-          id
-          name
-          age
-          score
-        }
-      }
-    }
-  }
-`
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(

@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-
-import logo from './logo.svg';
 import './App.css';
-
 
 const query = gql`
   {
@@ -19,7 +16,18 @@ const query = gql`
   }
 `;
 
+const REMOVE_USER = gql`
+  mutation($id: ID!) {
+    deleteUser(id: $id) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 const App = () => (
+
   <Query query={query}>
     {({ loading, data }) => {
       if (loading) return <p>Loading...</p>;
@@ -28,9 +36,18 @@ const App = () => (
         <ul>
           {users.map(user => (
             <li key={user.id}>
-              <p>名前:{user.name}</p>
+              <div>ID: {user.id}</div>
+              <div>名前:{user.name}</div>
               <div>年齢:{user.age}</div>
               <div>点数:{user.score}</div>
+              <Mutation
+                mutation={REMOVE_USER}
+                variables={{ id: user.id }}
+              >
+                {(deleteUser, { data, loading, error }) => (
+                  <button onClick={deleteUser} >削除</button>
+                )}
+              </Mutation>
             </li>
           ))}
         </ul>
